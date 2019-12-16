@@ -2,7 +2,10 @@
   "name": "@fvictorio/newton-raphson-method",
   "version": "1.0.3",
   "description": "Find zeros of a function using the Newton-Raphson method",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "files": [
+    "/lib/**/*"
+  ],
   "author": {
     "name": "Ricky Reusser"
   },
