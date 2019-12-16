@@ -5,9 +5,9 @@ import Big from 'big.js'
 Big.DP = 100
 
 interface Options {
-  tolerance: Big
+  tolerance: number | Big
   maxIterations: number
-  h: Big
+  h: number | Big
   verbose: boolean
 }
 
