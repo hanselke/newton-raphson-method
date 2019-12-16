@@ -44,7 +44,7 @@ Given a real-valued function of one variable, iteratively improves and returns a
 
 **Parameters**:
 - `f`: The numerical function of one variable of which to compute the zero.
-- `x0`: A big.js instance representing the intial guess of the zero.
+- `x0`: A number representing the intial guess of the zero. Can be a number or a big.js instance.
 - `fp` (optional): The first derivative of `f`. If not provided, is computed numerically using a fourth order central difference with step size `h`.
 - `options` (optional): An object permitting the following options:
   - `tolerance` (default: `1e-7`): The tolerance by which convergence is measured. Convergence is met if `|x[n+1] - x[n]| <= tolerance * |x[n+1]|`.

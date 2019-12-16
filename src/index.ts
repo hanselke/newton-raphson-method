@@ -4,16 +4,18 @@ import Big from 'big.js'
 
 Big.DP = 100
 
+type Bignumberish = Big | number | string
+
 interface Options {
-  tolerance: number | Big
+  tolerance: Bignumberish
   maxIterations: number
-  h: number | Big
+  h: Bignumberish
   verbose: boolean
 }
 
 type F = (x: Big) => Big
 
-export function newtonRaphson(f: F, x0: Big, options?: Partial<Options>, fp?: F): Big | false {
+export function newtonRaphson(f: F, x0: Bignumberish, options?: Partial<Options>, fp?: F): Big | false {
   var x1, y, yp, tol, maxIter, iter, yph, ymh, yp2h, ym2h, h, hr, verbose
 
   options = options || {}
@@ -22,6 +24,7 @@ export function newtonRaphson(f: F, x0: Big, options?: Partial<Options>, fp?: F)
   h = new Big(options.h === undefined ? 1e-4 : options.h)
   verbose = options.verbose === undefined ? false : options.verbose
   hr = new Big(1).div(h)
+  x0 = new Big(x0)
 
   iter = 0
   while (iter++ < maxIter) {
