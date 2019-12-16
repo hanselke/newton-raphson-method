@@ -16,7 +16,7 @@ The Newton-Raphson method uses the tangent of a curve to iteratively approximate
 Consider the zero of `(x + 2) * (x - 1)` at `x = 1`:
 
 ```javascript
-const { newtonRaphson } = require('newton-raphson-method');
+const { newtonRaphson } = require('@fvictorio/newton-raphson-method');
 
 function f (x) { return x.minus(1).mul(x.plus(2)); }
 function fp (x) { return x.minus(1).plus(x).plus(2); }
