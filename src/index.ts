@@ -1,59 +1,57 @@
 'use strict'
 
-import Big from 'big.js'
+import {BigNumber , BigNumberish } from '@ethersproject/bignumber'
 
-Big.DP = 100
 
-type Bignumberish = Big | number | string
 
 interface Options {
-  tolerance: Bignumberish
+  tolerance: BigNumberish
   maxIterations: number
-  h: Bignumberish
+  h: BigNumberish
   verbose: boolean
 }
 
-type F = (x: Big) => Big
+type F = (x: BigNumber) => BigNumber
 
-export function newtonRaphson(f: F, x0: Bignumberish, options?: Partial<Options>, fp?: F): Big | false {
+export function newtonRaphson(f: F, x0: BigNumberish, options?: Partial<Options>, fp?: F): BigNumber | false {
   var x1, y, yp, tol, maxIter, iter, yph, ymh, yp2h, ym2h, h, hr, verbose
 
   options = options || {}
-  tol = new Big(options.tolerance === undefined ? 1e-7 : options.tolerance)
+  tol = BigNumber.from(options.tolerance === undefined ? 1e-7 : options.tolerance)
   maxIter = options.maxIterations === undefined ? 20 : options.maxIterations
-  h = new Big(options.h === undefined ? 1e-4 : options.h)
+  h = BigNumber.from(options.h === undefined ? 1e-4 : options.h)
   verbose = options.verbose === undefined ? false : options.verbose
-  hr = new Big(1).div(h)
-  x0 = new Big(x0)
+  hr = BigNumber.from(1).div(h)
+  x0 = BigNumber.from(x0)
 
   iter = 0
   while (iter++ < maxIter) {
     // Compute the value of the function:
-    y = f(x0)
+    y = f(BigNumber.from(x0))
 
     if (fp) {
-      yp = fp(x0)
+      yp = fp(BigNumber.from(x0))
     } else {
       // Needs numerical derivatives:
-      yph = f(x0.plus(h))
-      ymh = f(x0.minus(h))
-      yp2h = f(x0.plus(h.mul(2)))
-      ym2h = f(x0.minus(h.mul(2)))
+      yph = f(BigNumber.from(x0).add(h))
+      ymh = f(BigNumber.from(x0).sub(h))
+      yp2h = f(BigNumber.from(x0).add(h.mul(2)))
+      ym2h = f(BigNumber.from(x0).sub(h.mul(2)))
 
       yp = ym2h
-        .minus(yp2h)
-        .plus(new Big(8).mul(yph.minus(ymh)))
+        .sub(yp2h)
+        .add(BigNumber.from(8).mul(yph.sub(ymh)))
         .mul(hr)
         .div(12)
     }
 
     // Update the guess:
-    x1 = x0.minus(y.div(yp))
+    x1 = BigNumber.from(x0).sub(y.div(yp))
 
     // Check for convergence:
     if (
       x1
-        .minus(x0)
+        .sub(x0)
         .abs()
         .lte(tol.mul(x1.abs()))
     ) {

@@ -34,7 +34,7 @@
     "typescript": "^3.7.3"
   },
   "dependencies": {
-    "big.js": "^5.2.2"
+    "@ethersproject/bignumber": "^5.7.0"
   },
   "semistandard": {
     "globals": [
